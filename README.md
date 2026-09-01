@@ -105,8 +105,8 @@ ffmpeg -y -ss 1 -i assets/loops/nom.mp4 -frames:v 1 -vf "scale=960:-2" -q:v 5 as
 
 ## État des vidéos
 
-**41 projets** — 17 musique, 24 fashion. **21 ont une vraie boucle vidéo**,
-les 20 autres affichent la vignette YouTube (image fixe, légère respiration).
+**41 projets** — 17 musique, 24 fashion. **22 ont une vraie boucle vidéo**,
+les 19 autres affichent la vignette YouTube (image fixe, légère respiration).
 Pour en passer une en vidéo : déposer la source et suivre « Ajouter une boucle » ci-dessus.
 
 **Manque le lien YouTube** de Gradur — Décennie : la boucle tourne, mais le clic n'ouvre rien.

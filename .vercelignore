@@ -1,0 +1,11 @@
+# Vidéos sources non compressées — inutiles en ligne
+_originaux/
+_assets-bruts/
+
+# Outils de travail
+_typo.html
+_projets.html
+
+# Système
+.DS_Store
+node_modules/

@@ -134,7 +134,7 @@
   function setMenu(open) {
     menu.classList.toggle("open", open);
     document.querySelector(".nav").classList.toggle("menu-open", open);
-    menuBtn.textContent = open ? "Fermer" : "Menu";
+    menuBtn.textContent = open ? "Close" : "Menu";
     menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
     // Lenis est mis en pause pour figer la page derrière ; le menu, lui,
     // défile nativement grâce à data-lenis-prevent.
@@ -340,17 +340,26 @@
      Préloader
      ------------------------------------------------------- */
   var loader = document.getElementById("loader");
-  var num = document.getElementById("loaderNum");
+  var loaderNum = document.getElementById("loaderNum");
   var v = 0;
+
+  if (lenis) lenis.stop();          // page figée tant que le volet est baissé
+
   var tick = setInterval(function () {
     v = Math.min(100, v + Math.random() * 16);
-    num.textContent = String(Math.round(v)).padStart(3, "0");
-    if (v >= 100) {
-      clearInterval(tick);
+    loaderNum.textContent = String(Math.round(v)).padStart(3, "0");
+    if (v < 100) return;
+
+    clearInterval(tick);
+    setTimeout(function () {
+      loader.classList.add("done");   // le volet remonte
+      if (lenis) lenis.start();
+      var hv = document.getElementById("heroVideo");
+      if (hv) hv.play().catch(function () {});
+      // ScrollTrigger recalcule une fois le volet sorti de l'écran
       setTimeout(function () {
-        loader.classList.add("done");
         if (window.ScrollTrigger) ScrollTrigger.refresh();
-      }, 260);
-    }
+      }, 1000);
+    }, 260);
   }, 90);
 })();

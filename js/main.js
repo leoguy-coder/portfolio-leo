@@ -351,29 +351,90 @@
   }
 
   /* -------------------------------------------------------
-     Préloader
+     Ouverture : rouge → fenêtre vidéo → hero plein écran
      ------------------------------------------------------- */
   var loader = document.getElementById("loader");
-  var loaderNum = document.getElementById("loaderNum");
-  var v = 0;
+  var loaderBrand = document.getElementById("loaderBrand");
+  var heroMedia = document.getElementById("heroMedia");
+  var heroMark = document.querySelector(".hero__mark");
+  var introStarted = false;
 
-  if (lenis) lenis.stop();          // page figée tant que le volet est baissé
+  if (lenis) lenis.stop();
 
-  var tick = setInterval(function () {
-    v = Math.min(100, v + Math.random() * 16);
-    loaderNum.textContent = String(Math.round(v)).padStart(3, "0");
-    if (v < 100) return;
-
-    clearInterval(tick);
+  function finishIntro() {
+    // Le vrai wordmark prend le relais exactement au même emplacement.
+    if (heroMark) {
+      heroMark.style.opacity = "1";
+      heroMark.style.zIndex = "221";
+    }
+    if (loaderBrand) loaderBrand.style.opacity = "0";
+    if (loader) loader.classList.add("done");
     setTimeout(function () {
-      loader.classList.add("done");   // le volet remonte
+      document.body.classList.remove("is-loading");
+      if (heroMedia) heroMedia.style.removeProperty("clip-path");
+      if (heroMark) {
+        heroMark.style.removeProperty("opacity");
+        heroMark.style.removeProperty("z-index");
+      }
       if (lenis) lenis.start();
       var hv = document.getElementById("heroVideo");
       if (hv) hv.play().catch(function () {});
-      // ScrollTrigger recalcule une fois le volet sorti de l'écran
-      setTimeout(function () {
-        if (window.ScrollTrigger) ScrollTrigger.refresh();
-      }, 1000);
-    }, 260);
-  }, 90);
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }, 180);
+  }
+
+  function startIntro() {
+    if (introStarted) return;
+    introStarted = true;
+
+    if (reduce || !window.gsap || !loader || !loaderBrand || !heroMedia || !heroMark) {
+      finishIntro();
+      return;
+    }
+
+    var finalBrand = heroMark.getBoundingClientRect();
+    var finalStyle = window.getComputedStyle(heroMark);
+    var finalCenterY = finalBrand.top + finalBrand.height / 2;
+    var finalFontSize = parseFloat(finalStyle.fontSize);
+    var hv = document.getElementById("heroVideo");
+    if (hv) {
+      hv.currentTime = 0;
+      hv.pause();
+    }
+
+    gsap.timeline({ onComplete: finishIntro })
+      // Même silence visuel que la référence : rouge + nom noir.
+      .to({}, { duration: 2.15 })
+      // La lecture commence seulement quand la fenêtre devient visible.
+      .call(function () {
+        if (!hv) return;
+        hv.currentTime = 0;
+        hv.play().catch(function () {});
+      }, null, 2.15)
+      // La fenêtre s'ouvre directement en rectangle, sans petit carré d'attente.
+      .fromTo(heroMedia,
+        { clipPath: "inset(44% 50% 54% 50%)" },
+        { clipPath: "inset(34% 40% 46% 40%)", duration: .24,
+          ease: "power2.out" }, 2.15)
+      .to(heroMedia,
+        { clipPath: "inset(0% 0%)", duration: 2.91,
+          ease: "power3.inOut" }, 2.39)
+      // Le nom descend et prend sa taille définitive pendant l'agrandissement.
+      .to(loaderBrand,
+        { top: finalCenterY, fontSize: finalFontSize, duration: 1.8,
+          ease: "power2.inOut" }, 2.2)
+      // Il devient rouge juste avant que l'image remplisse le viewport.
+      .to(loaderBrand,
+        { color: "#D60001", duration: .2, ease: "none" }, 5.08)
+      .to(loaderBrand, { opacity: 0, duration: .12, ease: "none" }, 5.3);
+  }
+
+  if (reduce) {
+    startIntro();
+  } else if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(startIntro);
+    setTimeout(startIntro, 1400);
+  } else {
+    startIntro();
+  }
 })();

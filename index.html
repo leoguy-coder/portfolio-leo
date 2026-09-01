@@ -20,10 +20,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="is-loading">
 
 <!-- Préloader -->
-<div class="loader" id="loader"><div class="loader__num" id="loaderNum">000</div></div>
+<div class="loader" id="loader"></div>
+<div class="loader__brand" id="loaderBrand">LÉO GUY</div>
 
 <!-- Curseur : le mot « scroll » suit la souris -->
 <div class="cursor" id="cursor" aria-hidden="true">scroll</div>
@@ -52,14 +53,16 @@
 
 <!-- Hero : showreel -->
 <header class="hero">
-  <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="auto"
-         disablepictureinpicture disableremoteplayback
-         poster="assets/img/showreel-poster.jpg">
-    <!-- Variante légère servie aux petits écrans (960px, 7 Mo au lieu de 18) -->
-    <source src="assets/videos/showreel-mobile.mp4" type="video/mp4" media="(max-width:820px)">
-    <source src="assets/videos/showreel.mp4" type="video/mp4">
-  </video>
-  <div class="hero__scrim"></div>
+  <div class="hero__media" id="heroMedia">
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="auto"
+           disablepictureinpicture disableremoteplayback
+           poster="assets/img/showreel-poster.jpg">
+      <!-- Variante légère servie aux petits écrans (960px, 7 Mo au lieu de 18) -->
+      <source src="assets/videos/showreel-mobile.mp4" type="video/mp4" media="(max-width:820px)">
+      <source src="assets/videos/showreel.mp4" type="video/mp4">
+    </video>
+    <div class="hero__scrim"></div>
+  </div>
   <div class="hero__mark">LÉO GUY</div>
 </header>
 

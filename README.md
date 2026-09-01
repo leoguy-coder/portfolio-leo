@@ -63,6 +63,15 @@ Côté lecture, trois choses assurent la fluidité :
 npx serve .
 ```
 
+Pour réordonner les projets avec l'éditeur visuel (glisser-déposer + sauvegarde
+automatique dans `data/order.js`) :
+
+```bash
+python3 tools/order_editor.py
+```
+
+Puis ouvrir `http://127.0.0.1:4173/_ordre.html`.
+
 ## Modifier les projets
 
 Tout se passe dans `data/projects.js`. Un projet :

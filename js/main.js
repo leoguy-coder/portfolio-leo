@@ -5,7 +5,21 @@
 (function () {
   "use strict";
 
-  var P = window.PROJECTS || [];
+  var P = (window.PROJECTS || []).slice();
+  var savedOrder = window.PROJECT_ORDER || [];
+  function projectKey(p) { return [p.cat, p.client, p.title].join("::"); }
+  if (savedOrder.length) {
+    var positions = {};
+    savedOrder.forEach(function (key, index) { positions[key] = index; });
+    P.sort(function (a, b) {
+      var ai = positions[projectKey(a)];
+      var bi = positions[projectKey(b)];
+      if (ai === undefined && bi === undefined) return 0;
+      if (ai === undefined) return 1;
+      if (bi === undefined) return -1;
+      return ai - bi;
+    });
+  }
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* Vignette YouTube — maxres n'existe pas toujours, hqdefault est garanti */

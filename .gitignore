@@ -1,0 +1,17 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Vidéos sources non compressées — sauvegarde locale, trop lourdes pour Git
+_originaux/
+_assets-bruts/
+
+# Outils de travail (questionnaire, comparaison typo)
+_typo.html
+_projets.html
+
+# Dépendances éventuelles
+node_modules/
+
+# Vercel
+.vercel/

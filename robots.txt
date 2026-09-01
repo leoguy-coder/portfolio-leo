@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Fichiers de travail, sans intérêt pour l'indexation
+Disallow: /_typo.html
+Disallow: /_projets.html

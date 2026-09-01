@@ -1,0 +1,16 @@
+# Fins de ligne normalisées pour le texte
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.svg    text eol=lf
+*.txt    text eol=lf
+
+# Binaires : ni diff ni normalisation
+*.mp4    binary
+*.jpg    binary
+*.jpeg   binary
+*.png    binary
+*.webp   binary
+*.woff2  binary

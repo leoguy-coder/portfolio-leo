@@ -43,8 +43,8 @@
 
   P.forEach(function (p, i) {
     var sec = document.createElement("section");
-    // Alternance des fonds : le 1er projet (Bando) est noir, puis rouge, etc.
-    sec.className = "project " + (i % 2 === 0 ? "project--dark" : "project--red");
+    // Alternance des fonds : le 1er projet est rouge, puis noir, etc.
+    sec.className = "project " + (i % 2 === 0 ? "project--red" : "project--dark");
 
     var media, still = "";
     if (p.loop) {

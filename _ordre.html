@@ -118,7 +118,7 @@ header .note{margin-top:16px;padding:12px 16px;border-left:2px solid var(--red);
      Ton ordre est enregistré automatiquement pour l'accueil et le menu.</p>
   <div class="note">
     La bande de couleur à gauche montre le <b>fond du projet</b> sur la page d'accueil.
-    Elle alterne noir / rouge selon la position, donc elle se recalcule à chaque déplacement.
+    Elle alterne rouge / noir selon la position, en commençant par rouge, et se recalcule à chaque déplacement.
   </div>
 </header>
 
@@ -134,8 +134,8 @@ header .note{margin-top:16px;padding:12px 16px;border-left:2px solid var(--red);
 <div class="hint">
   <span><b>Glisse ⠿</b> une ligne pour la déplacer</span>
   <span><b>▲▼</b> d'un cran &nbsp;·&nbsp; <b>⤒</b> en tête</span>
-  <span class="legend"><i class="chip-bg" style="background:#000"></i> fond noir</span>
   <span class="legend"><i class="chip-bg" style="background:#D60001;border-color:#D60001"></i> fond rouge</span>
+  <span class="legend"><i class="chip-bg" style="background:#000"></i> fond noir</span>
 </div>
 
 <div id="list"></div>
@@ -265,8 +265,8 @@ function wire(el){
 function renum(){
   [...list.children].forEach((el, i) => {
     el.querySelector('.num').textContent = String(i + 1).padStart(2, '0');
-    // même règle que le site : index pair → noir, impair → rouge
-    el.querySelector('.bg').className = 'bg ' + (i % 2 === 0 ? 'dark' : 'red');
+    // même règle que le site : index pair → rouge, impair → noir
+    el.querySelector('.bg').className = 'bg ' + (i % 2 === 0 ? 'red' : 'dark');
   });
   const n = list.children.length;
   const m = [...list.children].filter(e => e.dataset.cat === 'musique').length;

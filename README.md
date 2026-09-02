@@ -119,7 +119,7 @@ sur demande de Léo.
 
 ## Composition d'un projet
 
-Fonds **alternés** : projet 01 noir, 02 rouge, 03 noir… L'alternance est posée en JS
+Fonds **alternés** : projet 01 rouge, 02 noir, 03 rouge… L'alternance est posée en JS
 (`project--dark` / `project--red` selon la parité de l'index), le numéro s'adapte
 automatiquement (noir sur rouge, blanc sur noir).
 

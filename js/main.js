@@ -108,6 +108,42 @@
      Index du menu
      ------------------------------------------------------- */
   var menuList = document.getElementById("menuList");
+  var menu = document.getElementById("menu");
+  var activeMenuPreview = null;
+
+  function stopMenuPreview() {
+    if (!activeMenuPreview) return;
+    var previous = activeMenuPreview;
+    activeMenuPreview = null;
+    previous.row.classList.remove("is-previewing");
+    previous.video.pause();
+    if (previous.video.readyState) previous.video.currentTime = 0;
+  }
+
+  function playMenuPreview(row, video) {
+    if (reduce || !menu.classList.contains("open") || !video.parentElement.offsetWidth) return;
+    if (activeMenuPreview && activeMenuPreview.video === video) return;
+    stopMenuPreview();
+    var request = { row: row, video: video };
+    activeMenuPreview = request;
+    // Charger uniquement la boucle demandée, pas toutes les vidéos du menu.
+    if (!video.getAttribute("src")) video.src = video.dataset.src;
+    video.muted = true;
+    video.play().catch(function () {
+      if (activeMenuPreview === request) stopMenuPreview();
+    });
+  }
+
+  var menuPreviewObserver = window.IntersectionObserver
+    ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting && activeMenuPreview && activeMenuPreview.row === entry.target) {
+          stopMenuPreview();
+        }
+      });
+    }, { root: menu })
+    : null;
+
   P.forEach(function (p, i) {
     var a = document.createElement(p.yt ? "a" : "div");
     a.className = "mrow";
@@ -116,9 +152,10 @@
       a.href = watch(p.yt);
       a.target = "_blank";
       a.rel = "noopener";
+    } else if (p.loop) {
+      a.tabIndex = 0;
     }
-    // Vignettes du menu : celles de YouTube ; le poster local ne sert
-    // que pour un projet sans lien YouTube (Bando).
+    // Au repos, conserver la vignette YouTube ; le poster local sert de repli.
     var mthumb = p.yt
       ? thumbFallback(p.yt)
       : (p.loop ? "assets/img/posters/" + p.loop + ".jpg" : "");
@@ -130,6 +167,8 @@
       '<div class="mrow__thumb">' +
         (mthumb ? '<img src="' + mthumb + '" alt="" loading="lazy"' +
                   (mfall ? ' data-fallback="' + mfall + '"' : "") + ">" : "") +
+        (p.loop ? '<video muted loop playsinline preload="none" aria-hidden="true" ' +
+          'disablepictureinpicture disableremoteplayback data-src="assets/loops/' + p.loop + '.mp4"></video>' : "") +
       "</div>" +
       "<div>" +
         '<div class="mrow__client">' + p.client + "</div>" +
@@ -137,15 +176,38 @@
       "</div>" +
       '<div class="mrow__role">' + (p.role || "") + "</div>";
     menuList.appendChild(a);
+    var preview = a.querySelector("video");
+    if (preview) {
+      preview.addEventListener("playing", function () {
+        if (activeMenuPreview && activeMenuPreview.video === preview) {
+          a.classList.add("is-previewing");
+        } else {
+          preview.pause();
+        }
+      });
+      preview.addEventListener("error", function () {
+        if (activeMenuPreview && activeMenuPreview.video === preview) stopMenuPreview();
+      });
+      a.addEventListener("pointerenter", function (event) {
+        if (event.pointerType !== "touch") playMenuPreview(a, preview);
+      });
+      a.addEventListener("focus", function () { playMenuPreview(a, preview); });
+      function stopThisPreview() {
+        if (activeMenuPreview && activeMenuPreview.video === preview) stopMenuPreview();
+      }
+      a.addEventListener("pointerleave", stopThisPreview);
+      a.addEventListener("blur", stopThisPreview);
+      if (menuPreviewObserver) menuPreviewObserver.observe(a);
+    }
   });
   wireThumbFallbacks(menuList);
 
   /* Ouverture / fermeture du menu */
-  var menu = document.getElementById("menu");
   var menuBtn = document.getElementById("menuBtn");
   var lenis = null;
 
   function setMenu(open) {
+    stopMenuPreview();
     menu.classList.toggle("open", open);
     document.querySelector(".nav").classList.toggle("menu-open", open);
     menuBtn.textContent = open ? "Close" : "Menu";
@@ -162,6 +224,9 @@
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") setMenu(false);
   });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stopMenuPreview();
+  });
 
   /* Le wordmark du menu ramène en haut de la page d'accueil */
   var menuHome = document.getElementById("menuHome");
@@ -176,6 +241,7 @@
   /* Filtres du menu */
   document.querySelectorAll(".menu__filters button").forEach(function (b) {
     b.addEventListener("click", function () {
+      stopMenuPreview();
       document.querySelectorAll(".menu__filters button")
         .forEach(function (x) { x.classList.remove("on"); });
       b.classList.add("on");

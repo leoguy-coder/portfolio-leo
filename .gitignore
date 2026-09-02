@@ -9,6 +9,7 @@ _assets-bruts/
 # Outils de travail (questionnaire, comparaison typo)
 _typo.html
 _projets.html
+_menu-propositions.html
 
 # Dépendances éventuelles
 node_modules/

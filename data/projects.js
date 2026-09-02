@@ -6,6 +6,7 @@
    yt    : ID YouTube — la vignette du menu et le lien au clic en découlent
    loop  : fichier dans assets/loops/ — boucle muette jouée au scroll.
            Absent → on retombe sur la vignette YouTube (image fixe).
+   loopZoom : zoom d'affichage facultatif pour masquer les bandes intégrées.
 
    Le numéro affiché (01, 02, …) est calculé automatiquement à partir de
    l'ordre de ce tableau : il n'y a rien à renuméroter en cas d'ajout.
@@ -14,7 +15,7 @@
 window.PROJECTS = [
   // ---------- MUSIQUE ----------
   { cat:"musique", client:"Angélique Kidjo × Pharrell Williams × Quavo", title:"Bando",
-    role:"Coordination", yt:"TdLN4uqTJL4", loop:"bando" },
+    role:"Coordination", yt:"TdLN4uqTJL4", loop:"bando", loopZoom:1.225 },
 
   { cat:"musique", client:"VALD × Vladimir Cauchemar × Todiefor", title:"Prozaczopixan",
     role:"Directeur de production", yt:"qjzD3LkrDSQ", loop:"vald" },
@@ -29,7 +30,7 @@ window.PROJECTS = [
     role:"Directeur de production · Coordination", yt:"2wI4_-aMSk0", loop:"youngboy" },
 
   { cat:"musique", client:"PLK", title:"Périph",
-    role:"Assistant de production", yt:"HCJ2WHNpQqc", loop:"plk" },
+    role:"Assistant de production", yt:"HCJ2WHNpQqc", loop:"plk", loopZoom:1.095 },
 
   { cat:"musique", client:"Saint James × AVNIER", title:"Intervalle #1",
     role:"Directeur de production", yt:"YQ6wBpktQmo", loop:"intervalle" },
@@ -72,7 +73,7 @@ window.PROJECTS = [
     role:"Coordination", yt:"7Nc4LN8OA8g", loop:"jpg" },
 
   { cat:"fashion", client:"LOEWE", title:"Spring Summer 2025",
-    role:"Coordination", yt:"wqZby80VMq0" },
+    role:"Coordination", yt:"wqZby80VMq0", loop:"loewe-ss2025" },
 
   { cat:"fashion", client:"Schiaparelli", title:"Spring/Summer 2025 RTW",
     role:"Coordination", yt:"bqeJZghMNfo", loop:"schiaparelli-ss2025-rtw" },
@@ -102,7 +103,7 @@ window.PROJECTS = [
     role:"Chargé de production", yt:"FVCvkUQQEy4" },
 
   { cat:"fashion", client:"Patou", title:"Hiver 24",
-    role:"Chargé de production", yt:"hr3dziAOW4s", loop:"patou" },
+    role:"Chargé de production", yt:"hr3dziAOW4s", loop:"patou-debut" },
 
   { cat:"fashion", client:"Georges Hobeika", title:"Couture Spring 2024",
     role:"Chargé de production", yt:"uoLh_T2Z3CE" },

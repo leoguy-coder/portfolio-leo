@@ -45,6 +45,7 @@
     var sec = document.createElement("section");
     // Alternance des fonds : le 1er projet est rouge, puis noir, etc.
     sec.className = "project " + (i % 2 === 0 ? "project--red" : "project--dark");
+    if (p.loopZoom) sec.style.setProperty("--loop-zoom", p.loopZoom);
 
     var media, still = "";
     if (p.loop) {
@@ -148,6 +149,7 @@
     var a = document.createElement(p.yt ? "a" : "div");
     a.className = "mrow";
     a.dataset.cat = p.cat;
+    if (p.loopZoom) a.style.setProperty("--loop-zoom", p.loopZoom);
     if (p.yt) {
       a.href = watch(p.yt);
       a.target = "_blank";
@@ -162,6 +164,11 @@
     // Repli : YouTube n'a pas de vignette pour tous les clips (il renvoie
     // alors une image grise de 120px) → on prend le poster local.
     var mfall = p.loop ? "assets/img/posters/" + p.loop + ".jpg" : "";
+    // Pour une boucle recadrée, garder le même cadrage au repos et au survol.
+    if (p.loopZoom && mfall) {
+      mthumb = mfall;
+      mfall = "";
+    }
     a.innerHTML =
       '<div class="mrow__n">' + num(i) + "</div>" +
       '<div class="mrow__thumb">' +

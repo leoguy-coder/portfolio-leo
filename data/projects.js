@@ -75,7 +75,7 @@ window.PROJECTS = [
     role:"Coordination", yt:"wqZby80VMq0" },
 
   { cat:"fashion", client:"Schiaparelli", title:"Spring/Summer 2025 RTW",
-    role:"Coordination", yt:"bqeJZghMNfo" },
+    role:"Coordination", yt:"bqeJZghMNfo", loop:"schiaparelli-ss2025-rtw" },
 
   { cat:"fashion", client:"Comme des Garçons", title:"Spring/Summer 2025",
     role:"Coordination", yt:"MaRwXpILbvY", loop:"cdg-ss2025" },
